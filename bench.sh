@@ -2,5 +2,5 @@
 
 echo "Running Rust benchmarks"
 cd rust
-cargo bench
+cargo bench --bench diff
 cd ..
