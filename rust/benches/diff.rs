@@ -1,6 +1,7 @@
 use std::{path::Path, time::Duration};
 
 use criterion::{criterion_group, criterion_main, Criterion};
+use diff_match_patch_rs::{Compat, Efficient};
 
 fn diff_main(c: &mut Criterion) {
     let basedir = Path::new("../testdata");
@@ -46,10 +47,14 @@ fn diff_main(c: &mut Criterion) {
     }
 
     {
-        // benchmark this crate
+        // benchmark this crate - first efficiency mode
         let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
-        group.bench_function("diff-match-patch-rs", |bencher| {
-            bencher.iter(|| dmp.diff_main(&old, &new).unwrap());
+        group.bench_function("diff-match-patch-rs-efficient", |bencher| {
+            bencher.iter(|| dmp.diff_main::<Efficient>(&old, &new).unwrap());
+        });
+
+        group.bench_function("diff-match-patch-rs-compat", |bencher| {
+            bencher.iter(|| dmp.diff_main::<Compat>(&old, &new).unwrap());
         });
     }
 }
