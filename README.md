@@ -3,8 +3,8 @@ Benchmarking the crate `diff-match-patch-rs` against other implementations.
 
 ## Benchmark
 
-| Lang.   | Library                                       | Diff Avg. | Patch Avg. | Bencher    | Mode        |
-|:-------:|:---------------------------------------------:|:-------- :|:----------:|:----------:|:-----------:|
+|  Lang.  |  Library                                      |  Diff Avg.  | Patch Avg. | Bencher    | Mode        |
+|:-------:|:---------------------------------------------:|:-----------:|:----------:|:----------:|:-----------:|
 | `rust`  | [diff_match_patch v0.1.1<sup>**</sup>](https://crates.io/crates/diff_match_patch)        | 68.108 ms | 10.596 ms | Criterion   | -           |
 | `rust`  | [diffmatchpatch v0.0.4<sup>***</sup>](https://crates.io/crates/diffmatchpatch)           | 66.454 ms | -         | Criterion   | -           |
 | `rust`  | [dmp v0.2.0](https://crates.io/crates/dmp)                                               | 69.019 ms | 14.654 ms | Criterion   | -           |
