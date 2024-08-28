@@ -1,10 +1,7 @@
-package main
+import { Bench } from "tinybench";
+import DiffMatchPatch from 'diff-match-patch';
 
-import (
-	"github.com/sergi/go-diff/diffmatchpatch"
-)
-
-var TXT_OLD string = `This is a '''list of newspapers published by [[Journal Register Company]]'''.
+export let TXT_OLD = `This is a '''list of newspapers published by [[Journal Register Company]]'''.
 
 The company owns daily and weekly newspapers, other print media properties and newspaper-affiliated local Websites in the [[U.S.]] states of [[Connecticut]], [[Michigan]], [[New York]], [[Ohio]] and [[Pennsylvania]], organized in six geographic "clusters":<ref>[http://www.journalregister.com/newspapers.html Journal Register Company: Our Newspapers], accessed February 10, 2008.</ref>
 
@@ -233,34 +230,35 @@ Seven dailies and associated weeklies and magazines in [[Pennsylvania]] and [[Ne
 Here's a long text with a variety of emoticons, broken into multiple paragraphs:
 
 ** Paragraph 1
-Hey there!  I'm so excited to share this text with you!  It's going to be a wild ride  full of emotions  and fun . We'll have some serious moments , some silly moments , and some moments that will make you go "huh?" .
+Hey there! 🙂 I'm so excited to share this text with you! 🤩 It's going to be a wild ride 🎢 full of emotions 😂 and fun 🎉. We'll have some serious moments 🤔, some silly moments 🤪, and some moments that will make you go "huh?" 🤔.
 
 ** Paragraph 2
-Let's start with some basics . We've got your standard smiley face , your sad face ☹️, and your angry face . But wait, there's more!  We've also got some more complex emotions like , , and . And let's not forget about the classics: , , ad .
+Let's start with some basics 😊. We've got your standard smiley face 🙂, your sad face ☹️, and your angry face 😠. But wait, there's more! 🤩 We've also got some more complex emotions like 😍, 🤤, and 🚀. And let's not forget about the classics: 😉, 👍, and 👏.
 
 ** Paragraph 3
-Now, let's get a little crazy !  We've got emojis for every occasion , every emotion , and every interest . Want to talk about food?  We've got emojis for that! Want to talk about travel?  We've got emojis for that too!
+Now, let's get a little crazy 🤪! 🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉👯‍♀️🕺 We've got emojis for every occasion 🎂, every emotion 🤣, and every interest 🎨. Want to talk about food? 🍔🍕🥤 We've got emojis for that! Want to talk about travel? 🗺️🛫️ We've got emojis for that too!
 
 ** Paragraph 4
-But wait, there's more!  We've also got some more obscure emojis . Like, have you ever seen this one?  Or this one?  What about this one?  Yeah, we've got all those and more!
+But wait, there's more! 🤯 We've also got some more obscure emojis 🤔. Like, have you ever seen this one? 🚯 Or this one? 🛂️ What about this one? 🤷‍♂️ Yeah, we've got all those and more!
 
 ** Paragraph 5
-So, there you have it!  A text full of emojis, fun, and excitement . We hope you enjoyed the ride  and will join us again soon . Until next time, stay emoji-tastic! 
+So, there you have it! 🎉 A text full of emojis, fun, and excitement 🤩. We hope you enjoyed the ride 🎢 and will join us again soon 🤗. Until next time, stay emoji-tastic! 😄👋
 
 Note: I've used a variety of emojis, including:
 
-- Smiley faces and emotions (e.g., , , )
-- Objects (e.g., , , - Animals (e.g., , )
-- Symbols (e.g., , )
-- Flags (e.g., , )
-- And more! 
+- Smiley faces and emotions (e.g., 🙂, 😂, 🤔)
+- Objects (e.g., 🎉, 🎂, 🍔)
+- Animals (e.g., 🐶, 🐱)
+- Symbols (e.g., 👍, 👏)
+- Flags (e.g., 🇺🇸, 🇬🇧)
+- And more! 🤯
 
 ==References==
 <references />
 
-[[Category:Journal Register publications|*]]`
+[[Category:Journal Register publications|*]]`;
 
-var TXT_NEW string = `This is a '''list of newspapers published by [[Journal Register Company]]'''.
+export let TXT_NEW = `This is a '''list of newspapers published by [[Journal Register Company]]'''.
 
 The company owns daily and weekly newspapers, other print media properties and newspaper-affiliated local Websites in the [[U.S.]] states of [[Connecticut]], [[Michigan]], [[New York]], [[Ohio]], [[Pennsylvania]] and [[New Jersey]], organized in six geographic "clusters":<ref>[http://www.journalregister.com/publications.html Journal Register Company: Our Publications], accessed April 21, 2010.</ref>
 
@@ -448,37 +446,59 @@ Seven dailies and associated weeklies and magazines in [[Pennsylvania]] and [[Ne
 Here's a long text with a variety of emoticons, broken into multiple paragraphs:
 
 ** Paragraph 1
-Hey there!  I'm so excited to share this text with you!  It's going to be a wild ride  full of emotions  and fun . We'll have some serious moments , some silly moments , and some moments that will make you go "huh?" .
+Hey there! 🙂 I'm so excited to share this text with you! 🤩 It's going to be a wild ride 🎢 full of emotions 😂 and fun 🎉. We'll have some serious moments 🤔, some silly moments 🤪, and some moments that will make you go "huh?" 🤔.
 
 ** Paragraph 2
-Now, let's explore some emotional extremes . We've got your ecstatic face , your devastated face , and your utterly confused face . But that's not all!  We've also got some subtle emotions like , , and 👀.
+Now, let's explore some emotional extremes 🌊. We've got your ecstatic face 🤩, your devastated face 😭, and your utterly confused face 🤯. But that's not all! 🤔 We've also got some subtle emotions like 😐, 🙃, and 👀.
 
 ** Paragraph 3
-Now, let's get a little crazy !  We've got emojis for every occasion , every emotion , and every interest . Want to talk about food?  We've got emojis for that! Want to talk about travel?  We've got emojis for that too!
+Now, let's get a little crazy 🤪! 🎉👯‍♀️🕺 We've got emojis for every occasion 🎂, every emotion 🤣, and every interest 🎨. Want to talk about food? 🍔🍕🥤 We've got emojis for that! Want to talk about travel? 🗺️🛫️ We've got emojis for that too!
 
 ** Paragraph 4
-But wait, there's more!  We've also got some more obscure emojis . Like, have you ever seen this one?  Or this one?  What about this one?  Yeah, we've got all those and more!
+But wait, there's more! 🤯 We've also got some more obscure emojis 🤔. Like, have you ever seen this one? 🚯 Or this one? 🛂️ What about this one? 🤷‍♂️ Yeah, we've got all those and more!
 
 ** Paragraph 5
-So, there you have it!  A text full of emojis, fun, and excitement . We hope you enjoyed the ride  and will join us again soon . Until next time, stay emoji-tastic! 
+So, there you have it! 🎉 A text full of emojis, fun, and excitement 🤩. We hope you enjoyed the ride 🎢 and will join us again soon 🤗. Until next time, stay emoji-tastic! 😄👋
 
 Note: I've used a variety of emojis, including:
 
-- Smiley faces and emotions (e.g., )
-- Objects (e.g., - Animals (e.., , )
-- Symbols (e.g., , )
-- Flags (e.g., , )
-- And more! 
+- Smiley faces and emotions (e.g., 🙂😂🤔)
+- Objects (e.g., 🎉🎂🍔)
+- Animals (e.g., 🐶, 🐱)
+- Symbols (e.g., 👍, 👏)
+- Flags (e.g., 🇺🇸, 🇬🇧)
+- And more! 🤯🌊,🛂️
 
 ==References==
 <references />
 
-[[Category:Journal Register publications|*]]`
+[[Category:Journal Register publications|*]]`;
 
-func DiffMain(dmp *diffmatchpatch.DiffMatchPatch, old, new string) {
-	dmp.DiffMain(old, new, true)
-}
+const bench = new Bench({ time: 10000 });
 
-func PatchApply(dmp *diffmatchpatch.DiffMatchPatch, patches []diffmatchpatch.Patch, old string) {
-	dmp.PatchApply(patches, old)
-}
+const dmp = new DiffMatchPatch();
+
+// data loaded with readFileSync errors out during patch apply
+// let txt_old = fs.readFileSync("../testdata/txt_old.txt", "utf8");
+// let txt_new = fs.readFileSync("../testdata/txt_old.txt", "utf8");
+
+let txt_old = TXT_OLD;
+let txt_new = TXT_NEW;
+
+let static_diffs = dmp.diff_main(txt_old, txt_new, true);
+let patches = dmp.patch_make(static_diffs)
+
+bench.add('diff_main', () => {
+    dmp.diff_main(txt_old, txt_new, true);
+}).add('patch', () => {
+    dmp.patch_apply(patches, txt_old)
+});
+
+await bench.warmup(); // make results more reliable, ref: https://github.com/tinylibs/tinybench/pull/50
+await bench.run();
+
+console.table(bench.table());
+
+// check correctness
+let [pt, _] = dmp.patch_apply(patches, txt_old)
+console.log(pt == txt_new ? "Correct" : "Wrong");

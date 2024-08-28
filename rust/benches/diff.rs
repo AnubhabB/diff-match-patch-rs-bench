@@ -39,12 +39,12 @@ fn diff_main(c: &mut Criterion) {
         });
     }
 
-    {
-        // benchmark dissimilar
-        group.bench_function("dissimilar", |bencher| {
-            bencher.iter(|| dissimilar::diff(&old, &new));
-        });
-    }
+    // {
+    //     // benchmark dissimilar
+    //     group.bench_function("dissimilar", |bencher| {
+    //         bencher.iter(|| dissimilar::diff(&old, &new));
+    //     });
+    // }
 
     {
         // benchmark this crate - first efficiency mode
