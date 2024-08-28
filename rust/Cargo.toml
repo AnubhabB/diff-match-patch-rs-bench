@@ -16,3 +16,7 @@ dissimilar = "1"
 [[bench]]
 name = "diff"
 harness = false
+
+[[bench]]
+name = "patch"
+harness = false

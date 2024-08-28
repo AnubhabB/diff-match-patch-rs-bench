@@ -14,3 +14,20 @@ Benchmarking the crate `diff-match-patch-rs` against other implementations.
 > Note:
 > Omitting [dissimilar](https://crates.io/crates/dissimilar) from the results, I believe that crate has different goals and a headon benchmark is not fair
 > Results: Avg[197.30] High[197.46] Low[197.19]
+
+<br>
+
+## Patch
+| Lang.   | Library   | Avg.   | High   | Low   | Bencher   | Mode |
+|:-------:|:---------:|:-----------:|:-----------:|:----------:|:---------:|:-----:
+| `rust`  | [diff_match_patch v0.1.1<sup>*</sup>](https://crates.io/crates/diff_match_patch) | 10.596 ms | 10.631 ms | 10.557 ms | Criterion | - |
+| `rust`  | [dmp v0.2.0](https://crates.io/crates/dmp) | 14.654 ms | 14.662 ms | 14.646 ms | Criterion | - |
+| `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 631.13 µs | 631.56 µs | 630.73 µs | Criterion | `Efficient` |
+| `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 1.1703 ms | 1.1722 ms | 1.1685 ms | Criterion | `Compat` |
+
+>
+> `*` - Adds an extra clone to the iterator because the `patch_apply` method takes mutable refc. to `diffs`
+>
+
+> Note:
+> The crate [diffmatchpatch v0.0.4](https://crates.io/crates/diffmatchpatch) is still a WIP, cound't find the `patch_apply` method
