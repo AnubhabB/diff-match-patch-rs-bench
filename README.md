@@ -2,6 +2,7 @@
 Benchmarking the crate `diff-match-patch-rs` against other implementations.
 
 ## Benchmark
+
 | Lang.   | Library                                                                                  | Diff Avg. | Patch Avg. | Bencher    | Mode        | Correct |
 |:-------:|:----------------------------------------------------------------------------------------:|:-------- :|:----------:|:----------:|:-----------:|:-------:|
 | `rust`  | [diff_match_patch v0.1.1<sup>**</sup>](https://crates.io/crates/diff_match_patch)        | 68.108 ms | 10.596 ms | Criterion   | -           |    ✅   |
