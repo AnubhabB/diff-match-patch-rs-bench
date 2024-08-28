@@ -9,11 +9,15 @@ Benchmarking the crate `diff-match-patch-rs` against other implementations.
 | `rust`  | [dmp v0.2.0](https://crates.io/crates/dmp) | 69.019 | 66.476 | 68.991 | Criterion | - |
 | `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 65.487 | 65.519 | 65.458 | Criterion | `Efficient` |
 | `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 65.642 | 65.667 | 65.621 | Criterion | `Compat` |
+| `go`    | [go-diff<sup>*</sup>](https://github.com/sergi/go-diff.git) | 22 | - | - | `go test` | - |
 
 >
 > Note:
 > Omitting [dissimilar](https://crates.io/crates/dissimilar) from the results, I believe that crate has different goals and a headon benchmark is not fair
 > Results: Avg[197.30] High[197.46] Low[197.19]
+
+>
+> `*` diff not accurate with unicode?
 
 <br>
 
@@ -24,9 +28,12 @@ Benchmarking the crate `diff-match-patch-rs` against other implementations.
 | `rust`  | [dmp v0.2.0](https://crates.io/crates/dmp) | 14.654 ms | 14.662 ms | 14.646 ms | Criterion | - |
 | `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 631.13 µs | 631.56 µs | 630.73 µs | Criterion | `Efficient` |
 | `rust`  | [diff-match-patch-rs](https://github.com/AnubhabB/diff-match-patch-rs.git)<sup>our</sup> | 1.1703 ms | 1.1722 ms | 1.1685 ms | Criterion | `Compat` |
+| `go`    | [go-diff](https://github.com/sergi/go-diff.git) | - | - | - | `go test` | - |
 
 >
 > `*` - Adds an extra clone to the iterator because the `patch_apply` method takes mutable refc. to `diffs`
+>
+> `**` - Panics on our test set
 >
 
 > Note:
