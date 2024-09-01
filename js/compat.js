@@ -8,6 +8,7 @@ function make() {
     for(let i in DATA) {
         let d = DATA[i];
         let diffs = makeDiff(d["old"], d["new"]);
+        
         // try {
         //     let delta = toDelta(diffs);
         //     d["delta_js"] = delta;
