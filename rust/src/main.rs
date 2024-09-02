@@ -110,21 +110,19 @@ fn exec() {
         }
 
         // Check compatibility with `Go`
-        {
-            if idx != 10 && idx != 18 && idx != 22 && idx != 24 {
-                let patches_go = match dmp.patch_from_text::<Compat>(&d.patch_go) {
-                    Ok(p) => p,
-                    Err(_) => {
-                        println!("[Go Patch] Make: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
-                        continue;
-                    }
-                };
-
-                let (new, _) = dmp.patch_apply(&patches_go, &d.old).unwrap();
-                if new != d.new {
-                    println!("[Go Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+        {   
+            let patches_go = match dmp.patch_from_text::<Compat>(&d.patch_go) {
+                Ok(p) => p,
+                Err(_) => {
+                    println!("[Go Patch] Make: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
                     continue;
                 }
+            };
+
+            let (new, _) = dmp.patch_apply(&patches_go, &d.old).unwrap();
+            if new != d.new {
+                println!("[Go Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                continue;
             }
 
             let diffs = match dmp.diff_from_delta::<Compat>(&d.old, &d.delta_go) {

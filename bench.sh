@@ -17,7 +17,7 @@ echo "Running Node benchmarks"
 cd js
 npm i
 node index.js
-rm -rf node_modules
+# rm -rf node_modules
 cd ..
 
 echo "Running Python benchmarks"
@@ -26,5 +26,5 @@ virtualenv -p python3 venv
 venv/bin/python3 -m pip install --upgrade pip
 venv/bin/python3 -m pip install -r requirements.txt
 venv/bin/python3 bench.py
-rm -rf venv
+# rm -rf venv
 cd ..
