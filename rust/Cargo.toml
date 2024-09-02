@@ -6,7 +6,7 @@ authors = ["Anubhab Bandyopadhyay"]
 
 [dependencies]
 criterion = "0"
-diff-match-patch-rs = { git = "https://github.com/anubhabb/diff-match-patch-rs", branch = "debug" } # this crate
+diff-match-patch-rs = "0" # this crate
 diff_match_patch = "0"
 diffmatchpatch = "0"
 dmp = "0"
