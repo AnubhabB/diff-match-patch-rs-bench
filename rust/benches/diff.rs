@@ -11,33 +11,33 @@ fn diff_main(c: &mut Criterion) {
     let mut group = c.benchmark_group("diff_main");
     group.measurement_time(Duration::from_secs(10));
 
-    {
-        // benchmark diff_match_patch crate
-        let mut dmp = diff_match_patch::Dmp::new();    
-        group.bench_function("diff_match_patch", |bencher| {
-            bencher.iter(|| dmp.diff_main(&old, &new, true));
-        });
-    }
+    // {
+    //     // benchmark diff_match_patch crate
+    //     let mut dmp = diff_match_patch::Dmp::new();    
+    //     group.bench_function("diff_match_patch", |bencher| {
+    //         bencher.iter(|| dmp.diff_main(&old, &new, true));
+    //     });
+    // }
 
-    {
-        // benchmark diffmatchpatch crate
-        let dmp = diffmatchpatch::DiffMatchPatch::new();
-        group.bench_function("diffmatchpatch", |bencher| {
-            bencher.iter(|| {
-                let old_chars = old.chars().collect::<Vec<_>>();
-                let new_chars = new.chars().collect::<Vec<_>>();
-                dmp.diff_main(&old_chars[..], &new_chars[..], true)
-            });
-        });
-    }
+    // {
+    //     // benchmark diffmatchpatch crate
+    //     let dmp = diffmatchpatch::DiffMatchPatch::new();
+    //     group.bench_function("diffmatchpatch", |bencher| {
+    //         bencher.iter(|| {
+    //             let old_chars = old.chars().collect::<Vec<_>>();
+    //             let new_chars = new.chars().collect::<Vec<_>>();
+    //             dmp.diff_main(&old_chars[..], &new_chars[..], true)
+    //         });
+    //     });
+    // }
 
-    {
-        // benchmark dmp crate
-        let dmp = dmp::new();
-        group.bench_function("dmp", |bencher| {
-            bencher.iter(|| dmp.diff_main(&old, &new, true));
-        });
-    }
+    // {
+    //     // benchmark dmp crate
+    //     let dmp = dmp::new();
+    //     group.bench_function("dmp", |bencher| {
+    //         bencher.iter(|| dmp.diff_main(&old, &new, true));
+    //     });
+    // }
 
     // {
     //     // benchmark dissimilar
@@ -53,9 +53,9 @@ fn diff_main(c: &mut Criterion) {
             bencher.iter(|| dmp.diff_main::<Efficient>(&old, &new).unwrap());
         });
 
-        group.bench_function("diff-match-patch-rs-compat", |bencher| {
-            bencher.iter(|| dmp.diff_main::<Compat>(&old, &new).unwrap());
-        });
+        // group.bench_function("diff-match-patch-rs-compat", |bencher| {
+        //     bencher.iter(|| dmp.diff_main::<Compat>(&old, &new).unwrap());
+        // });
     }
 }
 
