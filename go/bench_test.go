@@ -1,17 +1,18 @@
 package main
 
 import (
+	"os"
 	"testing"
 
 	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 func BenchmarkDiffMain(b *testing.B) {
-	// oldb, _ := os.ReadFile("../testdata/txt_old.txt")
-	// newb, _ := os.ReadFile("../testdata/txt_new.txt")
+	oldb, _ := os.ReadFile("../testdata/txt_old.txt")
+	newb, _ := os.ReadFile("../testdata/txt_new.txt")
 
-	old := TXT_OLD
-	new := TXT_NEW
+	old := string(oldb)
+	new := string(newb)
 
 	dmp := diffmatchpatch.New()
 
@@ -21,11 +22,11 @@ func BenchmarkDiffMain(b *testing.B) {
 }
 
 func BenchmarkPatch(b *testing.B) {
-	// oldb, _ := os.ReadFile("../testdata/txt_old.txt")
-	// newb, _ := os.ReadFile("../testdata/txt_new.txt")
+	oldb, _ := os.ReadFile("../testdata/txt_old.txt")
+	newb, _ := os.ReadFile("../testdata/txt_new.txt")
 
-	old := TXT_OLD
-	new := TXT_NEW
+	old := string(oldb)
+	new := string(newb)
 
 	dmp := diffmatchpatch.New()
 	diffs := dmp.DiffMain(old, new, true)

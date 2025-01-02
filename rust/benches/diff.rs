@@ -1,6 +1,6 @@
 use std::{path::Path, time::Duration};
 
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 use diff_match_patch_rs::{Compat, Efficient};
 
 fn diff_main(c: &mut Criterion) {
@@ -10,14 +10,6 @@ fn diff_main(c: &mut Criterion) {
 
     let mut group = c.benchmark_group("diff_main");
     group.measurement_time(Duration::from_secs(10));
-
-    // {
-    //     // benchmark diff_match_patch crate
-    //     let mut dmp = diff_match_patch::Dmp::new();    
-    //     group.bench_function("diff_match_patch", |bencher| {
-    //         bencher.iter(|| dmp.diff_main(&old, &new, true));
-    //     });
-    // }
 
     // {
     //     // benchmark diffmatchpatch crate
@@ -32,30 +24,54 @@ fn diff_main(c: &mut Criterion) {
     // }
 
     // {
-    //     // benchmark dmp crate
-    //     let dmp = dmp::new();
-    //     group.bench_function("dmp", |bencher| {
-    //         bencher.iter(|| dmp.diff_main(&old, &new, true));
-    //     });
-    // }
-
-    // {
     //     // benchmark dissimilar
     //     group.bench_function("dissimilar", |bencher| {
     //         bencher.iter(|| dissimilar::diff(&old, &new));
     //     });
     // }
 
-    {
-        // benchmark this crate - first efficiency mode
-        let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
-        group.bench_function("diff-match-patch-rs-efficient", |bencher| {
-            bencher.iter(|| dmp.diff_main::<Efficient>(&old, &new).unwrap());
-        });
+    // {
+    //     // benchmark diff_match_patch crate
+    //     let mut dmp = diff_match_patch::Dmp::new();    
+    //     group.bench_with_input(
+    //         BenchmarkId::new("diff_match_patch", "diff"), 
+    //         &(old.as_str(), new.as_str()),
+    //         |b, (lhs, rhs)| {
+    //             b.iter(|| dmp.diff_main(lhs, rhs, true));
+    //         }
+    //     );
+    // }
 
-        // group.bench_function("diff-match-patch-rs-compat", |bencher| {
-        //     bencher.iter(|| dmp.diff_main::<Compat>(&old, &new).unwrap());
-        // });
+    // {
+    //     // benchmark dmp crate
+    //     let dmp = dmp::new();
+    //     group.bench_with_input(
+    //         BenchmarkId::new("dmp", "diff"), 
+    //         &(old.as_str(), new.as_str()),
+    //         |b, (lhs, rhs)| {
+    //             b.iter(|| dmp.diff_main(lhs, rhs, true));
+    //         }
+    //     );
+    // }
+
+    {
+        let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
+        group.bench_with_input(
+            BenchmarkId::new("diff-match-patch-rs", "diff-efficient"), 
+            &(&old, &new),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.diff_main::<Efficient>(lhs, rhs));
+            }
+        );
+        
+
+        group.bench_with_input(
+            BenchmarkId::new("diff-match-patch-rs", "diff-compat"), 
+            &(old.as_str(), new.as_str()),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.diff_main::<Compat>(lhs, rhs));
+            }
+        );
     }
 }
 

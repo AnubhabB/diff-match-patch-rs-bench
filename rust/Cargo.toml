@@ -5,8 +5,8 @@ edition = "2021"
 authors = ["Anubhab Bandyopadhyay"]
 
 [dependencies]
-criterion = "0"
 # diff-match-patch-rs = "0" # this crate
+# diff-match-patch-rs = { path = "../../temp/diff-match-patch-rs" }
 diff-match-patch-rs = { path = "../../diff-match-patch-rs" }
 diff_match_patch = "0"
 diffmatchpatch = "0"
@@ -16,6 +16,10 @@ serde = { version= "1", features= ["derive"] }
 serde_derive = "1"
 serde_json = "1"
 
+[dev-dependencies]
+criterion = "0"
+rand = "0.8"
+
 
 [[bench]]
 name = "diff"
@@ -23,4 +27,8 @@ harness = false
 
 [[bench]]
 name = "patch"
+harness = false
+
+[[bench]]
+name = "prefix"
 harness = false
