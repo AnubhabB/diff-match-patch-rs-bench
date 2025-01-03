@@ -30,47 +30,46 @@ fn diff_main(c: &mut Criterion) {
     //     });
     // }
 
-    // {
-    //     // benchmark diff_match_patch crate
-    //     let mut dmp = diff_match_patch::Dmp::new();    
-    //     group.bench_with_input(
-    //         BenchmarkId::new("diff_match_patch", "diff"), 
-    //         &(old.as_str(), new.as_str()),
-    //         |b, (lhs, rhs)| {
-    //             b.iter(|| dmp.diff_main(lhs, rhs, true));
-    //         }
-    //     );
-    // }
+    {
+        // benchmark diff_match_patch crate
+        let mut dmp = diff_match_patch::Dmp::new();
+        group.bench_with_input(
+            BenchmarkId::new("diff_match_patch", "diff"),
+            &(old.as_str(), new.as_str()),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.diff_main(lhs, rhs, true));
+            },
+        );
+    }
 
-    // {
-    //     // benchmark dmp crate
-    //     let dmp = dmp::new();
-    //     group.bench_with_input(
-    //         BenchmarkId::new("dmp", "diff"), 
-    //         &(old.as_str(), new.as_str()),
-    //         |b, (lhs, rhs)| {
-    //             b.iter(|| dmp.diff_main(lhs, rhs, true));
-    //         }
-    //     );
-    // }
+    {
+        // benchmark dmp crate
+        let dmp = dmp::new();
+        group.bench_with_input(
+            BenchmarkId::new("dmp", "diff"),
+            &(old.as_str(), new.as_str()),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.diff_main(lhs, rhs, true));
+            },
+        );
+    }
 
     {
         let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
         group.bench_with_input(
-            BenchmarkId::new("diff-match-patch-rs", "diff-efficient"), 
+            BenchmarkId::new("diff-match-patch-rs", "diff-efficient"),
             &(&old, &new),
             |b, (lhs, rhs)| {
                 b.iter(|| dmp.diff_main::<Efficient>(lhs, rhs));
-            }
+            },
         );
-        
 
         group.bench_with_input(
-            BenchmarkId::new("diff-match-patch-rs", "diff-compat"), 
+            BenchmarkId::new("diff-match-patch-rs", "diff-compat"),
             &(old.as_str(), new.as_str()),
             |b, (lhs, rhs)| {
                 b.iter(|| dmp.diff_main::<Compat>(lhs, rhs));
-            }
+            },
         );
     }
 }

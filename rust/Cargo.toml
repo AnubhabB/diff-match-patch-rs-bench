@@ -5,9 +5,8 @@ edition = "2021"
 authors = ["Anubhab Bandyopadhyay"]
 
 [dependencies]
-# diff-match-patch-rs = "0" # this crate
-# diff-match-patch-rs = { path = "../../temp/diff-match-patch-rs" }
-diff-match-patch-rs = { path = "../../diff-match-patch-rs" }
+diff-match-patch-rs = "0" # this crate
+# diff-match-patch-rs = { path = "../../diff-match-patch-rs" }
 diff_match_patch = "0"
 diffmatchpatch = "0"
 dmp = "0"

@@ -34,7 +34,7 @@ fn patch_main(c: &mut Criterion) {
     //     let mut diffs = dmp.diff_main(&old_chars[..], &new_chars[..], true);
 
     //     let mut patches = dmp.patch_make2(&mut diffs);
-    //     
+    //
     //     group.bench_function("diffmatchpatch", |bencher| {
     //         bencher.iter(|| {
     //             diffmatchpatch::DiffMatchPatch::
@@ -57,14 +57,18 @@ fn patch_main(c: &mut Criterion) {
         // benchmark this crate - first efficiency mode
         let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
         let diffs = dmp.diff_main::<Efficient>(&old, &new).unwrap();
-        let patches = dmp.patch_make(PatchInput::new_text_diffs(&old, &diffs)).unwrap();
+        let patches = dmp
+            .patch_make(PatchInput::new_text_diffs(&old, &diffs))
+            .unwrap();
 
         group.bench_function("diff-match-patch-rs-efficient", |bencher| {
             bencher.iter(|| dmp.patch_apply::<Efficient>(&patches, &old).unwrap());
         });
 
         let diffs = dmp.diff_main::<Compat>(&old, &new).unwrap();
-        let patches = dmp.patch_make(PatchInput::new_text_diffs(&old, &diffs)).unwrap();
+        let patches = dmp
+            .patch_make(PatchInput::new_text_diffs(&old, &diffs))
+            .unwrap();
         group.bench_function("diff-match-patch-rs-compat", |bencher| {
             bencher.iter(|| dmp.patch_apply::<Compat>(&patches, &old).unwrap());
         });

@@ -1,6 +1,8 @@
 use std::path::Path;
 
-use criterion::{criterion_group, criterion_main, AxisScale, BenchmarkId, Criterion, PlotConfiguration};
+use criterion::{
+    criterion_group, criterion_main, AxisScale, BenchmarkId, Criterion, PlotConfiguration,
+};
 use diff_match_patch_rs::traits::DType;
 use rand::Rng;
 
@@ -64,26 +66,27 @@ fn generate_data(old: &str, new: &str, l: usize, random: bool) -> (String, Strin
         (o.iter().collect::<String>(), n.iter().collect::<String>())
     } else {
         let mut rng = rand::thread_rng();
-    
+
         // Generate two vectors with common prefix of len/2
-        let common_prefix: Vec<char> = (0..l/2).map(|_| rng.gen::<char>()).collect();
-        
+        let common_prefix: Vec<char> = (0..l / 2).map(|_| rng.gen::<char>()).collect();
+
         let mut lhs = common_prefix.clone();
-        lhs.extend((0..l/2).map(|_| rng.gen::<char>()));
-        
+        lhs.extend((0..l / 2).map(|_| rng.gen::<char>()));
+
         let mut rhs = common_prefix;
-        rhs.extend((0..l/2).map(|_| rng.gen::<char>()));
-        
-        (lhs.iter().collect::<String>(), rhs.iter().collect::<String>())
+        rhs.extend((0..l / 2).map(|_| rng.gen::<char>()));
+
+        (
+            lhs.iter().collect::<String>(),
+            rhs.iter().collect::<String>(),
+        )
     }
 }
-
 
 pub fn prefix_bench(c: &mut Criterion) {
     let d_len = [100_usize, 1000, 10000, 100000, 1000000, 10000000];
     // Create a benchmark group with logarithmic scaling for the plot
-    let plot_config = PlotConfiguration::default()
-        .summary_scale(AxisScale::Logarithmic);
+    let plot_config = PlotConfiguration::default().summary_scale(AxisScale::Logarithmic);
 
     let mut group = c.benchmark_group("common_prefix");
     group.plot_config(plot_config);
@@ -98,20 +101,20 @@ pub fn prefix_bench(c: &mut Criterion) {
 
         // Benchmark binary search implementation
         group.bench_with_input(
-            BenchmarkId::new("prefix_bin", len), 
+            BenchmarkId::new("prefix_bin", len),
             &(lhs.as_bytes(), rhs.as_bytes()),
             |b, (lhs, rhs)| {
                 b.iter(|| prefix_binary(lhs, rhs, false));
-            }
+            },
         );
-        
+
         // Benchmark linear implementation
         group.bench_with_input(
             BenchmarkId::new("prefix_lin", len),
             &(lhs.as_bytes(), rhs.as_bytes()),
             |b, (lhs, rhs)| {
                 b.iter(|| prefix_linear(lhs, rhs, false));
-            }
+            },
         );
     }
 }

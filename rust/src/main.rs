@@ -27,7 +27,9 @@ fn make() {
 
         d.delta_rs = delta;
 
-        let patches = dmp.patch_make(PatchInput::new_text_diffs(&d.old, &diffs)).unwrap();
+        let patches = dmp
+            .patch_make(PatchInput::new_text_diffs(&d.old, &diffs))
+            .unwrap();
         let patch_txt = dmp.patch_to_text(&patches);
 
         d.patch_rs = patch_txt;
@@ -50,14 +52,20 @@ fn exec() {
             let patches_rs = match dmp.patch_from_text::<Compat>(&d.patch_rs) {
                 Ok(p) => p,
                 Err(_) => {
-                    println!("[Rs Patch] Make: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Rs Patch] Make: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
 
             let (new, _) = dmp.patch_apply(&patches_rs, &d.old).unwrap();
             if new != d.new {
-                println!("[Rs Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Rs Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
 
@@ -65,14 +73,22 @@ fn exec() {
                 Ok(d) => d,
                 Err(_) => {
                     // fmt.Printf("[Go Patch] DiffFromDelta: for Idx[%d] - Old[%s] New[%s] \n", i, d.Old, d.New)
-                    println!("[Rs Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Rs Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
-            let patches = dmp.patch_make(PatchInput::new_text_diffs(&d.old, &diffs)).unwrap();
+            let patches = dmp
+                .patch_make(PatchInput::new_text_diffs(&d.old, &diffs))
+                .unwrap();
             let (new, _) = dmp.patch_apply(&patches, &d.old).unwrap();
             if new != d.new {
-                println!("[Rs Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Rs Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
         }
@@ -82,14 +98,20 @@ fn exec() {
             let patches_py = match dmp.patch_from_text::<Compat>(&d.patch_py) {
                 Ok(p) => p,
                 Err(_) => {
-                    println!("[Py Patch] Make: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Py Patch] Make: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
 
             let (new, _) = dmp.patch_apply(&patches_py, &d.old).unwrap();
             if new != d.new {
-                println!("[Py Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Py Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
 
@@ -97,31 +119,45 @@ fn exec() {
                 Ok(d) => d,
                 Err(_) => {
                     // fmt.Printf("[Go Patch] DiffFromDelta: for Idx[%d] - Old[%s] New[%s] \n", i, d.Old, d.New)
-                    println!("[Py Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Py Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
-            let patches = dmp.patch_make(PatchInput::new_text_diffs(&d.old, &diffs)).unwrap();
+            let patches = dmp
+                .patch_make(PatchInput::new_text_diffs(&d.old, &diffs))
+                .unwrap();
             let (new, _) = dmp.patch_apply(&patches, &d.old).unwrap();
             if new != d.new {
-                println!("[Py Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Py Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
         }
 
         // Check compatibility with `Go`
-        {   
+        {
             let patches_go = match dmp.patch_from_text::<Compat>(&d.patch_go) {
                 Ok(p) => p,
                 Err(_) => {
-                    println!("[Go Patch] Make: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Go Patch] Make: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
 
             let (new, _) = dmp.patch_apply(&patches_go, &d.old).unwrap();
             if new != d.new {
-                println!("[Go Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Go Patch] Apply1: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
 
@@ -129,14 +165,22 @@ fn exec() {
                 Ok(d) => d,
                 Err(_) => {
                     // fmt.Printf("[Go Patch] DiffFromDelta: for Idx[%d] - Old[%s] New[%s] \n", i, d.Old, d.New)
-                    println!("[Go Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]", &d.old, &d.new);
+                    println!(
+                        "[Go Patch] DiffFromDelta: for Idx[{idx}] - Old[{}] New[{}]",
+                        &d.old, &d.new
+                    );
                     continue;
                 }
             };
-            let patches = dmp.patch_make(PatchInput::new_text_diffs(&d.old, &diffs)).unwrap();
+            let patches = dmp
+                .patch_make(PatchInput::new_text_diffs(&d.old, &diffs))
+                .unwrap();
             let (new, _) = dmp.patch_apply(&patches, &d.old).unwrap();
             if new != d.new {
-                println!("[Go Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]", &d.old, &d.new, new);
+                println!(
+                    "[Go Patch] Apply2: for Idx[{idx}] - Old[{}] New[{}] Patched[{}]",
+                    &d.old, &d.new, new
+                );
                 continue;
             }
         }
