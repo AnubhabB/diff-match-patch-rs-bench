@@ -1,6 +1,6 @@
 use std::{path::Path, time::Duration};
 
-use criterion::{criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
 use diff_match_patch_rs::{Compat, Efficient, PatchInput};
 
 fn patch_main(c: &mut Criterion) {
@@ -17,30 +17,15 @@ fn patch_main(c: &mut Criterion) {
         let mut diffs = dmp.diff_main(&old, &new, true);
         let patches = dmp.patch_make4(&old, &mut diffs);
 
-        group.bench_function("diff_match_patch", |bencher| {
-            bencher.iter(|| {
-                let mut patches = patches.clone();
-                dmp.patch_apply(&mut patches, &old)
-            });
-        });
+        group.bench_with_input(
+            BenchmarkId::new("diff_match_patch", "patch"),
+            &old.as_str(),
+            |b, txt| {
+                let mut p = patches.clone();
+                b.iter(|| dmp.patch_apply(&mut p, txt));
+            },
+        );
     }
-
-    // How to apply a patch?? Incomplete library??
-    // {
-    //     // benchmark diffmatchpatch crate
-    //     let mut dmp = diffmatchpatch::DiffMatchPatch::new();
-    //     let old_chars = old.chars().collect::<Vec<_>>();
-    //     let new_chars = new.chars().collect::<Vec<_>>();
-    //     let mut diffs = dmp.diff_main(&old_chars[..], &new_chars[..], true);
-
-    //     let mut patches = dmp.patch_make2(&mut diffs);
-    //
-    //     group.bench_function("diffmatchpatch", |bencher| {
-    //         bencher.iter(|| {
-    //             diffmatchpatch::DiffMatchPatch::
-    //         });
-    //     });
-    // }
 
     {
         // benchmark dmp crate
@@ -48,30 +33,42 @@ fn patch_main(c: &mut Criterion) {
         let diffs = dmp.diff_main(&old, &new, true);
         let patches = dmp.patch_make4(&old, &diffs);
 
-        group.bench_function("dmp", |bencher| {
-            bencher.iter(|| dmp.patch_apply(&patches, &old));
-        });
+        group.bench_with_input(
+            BenchmarkId::new("dmp", "patch"),
+            &(&patches, new.as_str()),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.patch_apply(&lhs[..], rhs));
+            },
+        );
     }
 
     {
-        // benchmark this crate - first efficiency mode
         let dmp = diff_match_patch_rs::dmp::DiffMatchPatch::default();
         let diffs = dmp.diff_main::<Efficient>(&old, &new).unwrap();
         let patches = dmp
             .patch_make(PatchInput::new_text_diffs(&old, &diffs))
             .unwrap();
 
-        group.bench_function("diff-match-patch-rs-efficient", |bencher| {
-            bencher.iter(|| dmp.patch_apply::<Efficient>(&patches, &old).unwrap());
-        });
+        group.bench_with_input(
+            BenchmarkId::new("diff-match-patch-rs", "patch-efficient"),
+            &(&patches, &old),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.patch_apply::<Efficient>(lhs, rhs));
+            },
+        );
 
         let diffs = dmp.diff_main::<Compat>(&old, &new).unwrap();
         let patches = dmp
             .patch_make(PatchInput::new_text_diffs(&old, &diffs))
             .unwrap();
-        group.bench_function("diff-match-patch-rs-compat", |bencher| {
-            bencher.iter(|| dmp.patch_apply::<Compat>(&patches, &old).unwrap());
-        });
+
+        group.bench_with_input(
+            BenchmarkId::new("diff-match-patch-rs", "patch-compat"),
+            &(&patches, &old),
+            |b, (lhs, rhs)| {
+                b.iter(|| dmp.patch_apply::<Compat>(lhs, rhs));
+            },
+        );
     }
 }
 
